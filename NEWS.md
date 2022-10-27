@@ -1,8 +1,12 @@
 # New in 1.2
 
+Now on github at https://github.com/ahornby/dateshift
+
+Added github actions CI for Linux and MacOS.
+
 Updated libtool/automake build scripts to latest versions
 
-Applied fix DST from  Pavel Kankovsky and added a test for it.  This now works:
+Applied fix DST from Pavel Kankovsky and added a test for it.  This now works on linux:
  
 ```shell
 ./install/bin/dateshift  -t '2018-01-01 01:02:03' -- date
