@@ -171,6 +171,7 @@ int main(int argc, char** argv) {
 	origtime_t = time(&origtime_t);
 	origtime = *(localtime(&origtime_t));
 	newtime = origtime;
+    newtime.tm_isdst = -1;
 
 	if (datetext == NULL) {
 		fprintf(stderr, "You must specify a date/time to shift to\n");

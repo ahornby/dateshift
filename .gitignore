@@ -11,3 +11,4 @@ dateshift.o
 .libs/
 dsintercept.lo
 libdsintercept.la
+install/
