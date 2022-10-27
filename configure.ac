@@ -1,12 +1,13 @@
 dnl setup autotools
-AC_INIT(dateshift.c)
+AC_INIT
+AC_CONFIG_SRCDIR([dateshift.c])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR(config)
 AM_INIT_AUTOMAKE(dateshift, 1.1)
 
 dnl Setup libtool
-AM_DISABLE_STATIC
-AM_PROG_LIBTOOL
+AC_DISABLE_STATIC([])
+LT_INIT
 dnl DOLT
 
 # Build time sanity check...
@@ -18,9 +19,9 @@ AC_PROG_INSTALL
 
 dnl Check for functons/declarations
 AC_DEFINE(_GNU_SOURCE)
-AC_TRY_COMPILE([#include <time.h>], [
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <time.h>]], [[
 	int gettimeofday(struct timeval *tv,struct timezone *tz);
-], AC_DEFINE(GETTIMEOFDAY_HAS_TIMEZONE))
+]])],[AC_DEFINE(GETTIMEOFDAY_HAS_TIMEZONE)],[])
 
 dnl Check for functons/declarations
 AC_SEARCH_LIBS([clock_gettime],[c rt posix4]) 
@@ -31,4 +32,5 @@ if test $CC = "gcc"; then
 fi
 
 dnl Output files
-AC_OUTPUT([ Makefile config/Makefile ])
+AC_CONFIG_FILES([ Makefile config/Makefile ])
+AC_OUTPUT
