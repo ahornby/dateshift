@@ -37,6 +37,10 @@ fi
 
 There are some notes on the changes between versions in [NEWS](./NEWS.md).
 
+## Limitations
+
+dateshift makes no attempt to override filesystem timestamps or other state.  It simply tries to provide an offset time when programs like `date` request time explicitly
+
 ## Contributing
 
 Please open an issue or a PR on the [github repo](https://github.com/ahornby/dateshift).
