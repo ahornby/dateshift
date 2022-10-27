@@ -6,6 +6,14 @@
 #include <unistd.h>
 #include <time.h>
 
+#ifdef __APPLE__ 
+	#define DYLD_ENV "DYLD_INSERT_LIBRARIES"
+	#define DYLD_EXTENSION ".dylib"
+#else
+	#define DYLD_ENV "LD_PRELOAD"
+	#define DYLD_EXTENSION ".so"
+#endif
+
 static const char *directories[] = { ".libs", ".", LIBDIR, NULL};
 static int verbose = 0;
 
@@ -39,7 +47,8 @@ find_intercept_lib(void) {
 	lib_location = NULL;
 	for (dirname = directories; *dirname; ++dirname) {
 		strcpy(path, *dirname);
-		strcat(path, "/libdsintercept.so");
+		strcat(path, "/libdsintercept");
+		strcat(path, DYLD_EXTENSION);
 		if (!access(path, R_OK)) {
 			lib_location = path;
 			break;
@@ -47,7 +56,7 @@ find_intercept_lib(void) {
 	}
 
 	if (!lib_location) {
-		fprintf(stderr, "Cannot find libdsintercept.so\n");
+		fprintf(stderr, "Cannot find libdsintercept%s\n", DYLD_EXTENSION);
 		exit(1);
 	}
 
@@ -70,7 +79,9 @@ void start_command(int offset, char** command) {
 
 	if (offset) {
 		char* envstr = malloc(2048);
-		char *orig_ld_preload = getenv("LD_PRELOAD");
+
+
+		char *orig_ld_preload = getenv(DYLD_ENV);
 		char * lib_loc = find_intercept_lib();
 
 		if (verbose) {
@@ -85,7 +96,7 @@ void start_command(int offset, char** command) {
 		putenv(envstr);
 
 		envstr = malloc(4096);
-		sprintf(envstr, "LD_PRELOAD=%s", lib_loc);
+		sprintf(envstr, "%s=%s", DYLD_ENV, lib_loc);
 		if (orig_ld_preload) {
 			strcat(envstr, ":");
 			strcat(envstr, orig_ld_preload);
@@ -96,6 +107,10 @@ void start_command(int offset, char** command) {
 		}
 
 		putenv(envstr);
+
+#ifdef __APPLE_
+		putenv(strdup("DYLD_FORCE_FLAT_NAMESPACE=1"));
+#endif
 		free(lib_loc);
 	}
 

@@ -1,4 +1,4 @@
-name: Dateshift Linux
+name: Dateshift MacOS
 
 on:
   push:
@@ -13,14 +13,14 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v3
     - name: Generate
-      run: ./autogen.sh
+      run: brew install make libtool automake autoconf && ./autogen.sh
     - name: Configure
-      run: ./configure --prefix=`pwd`/inst-prefix
+      run: MAKE="gmake" ./configure --prefix=`pwd`/inst-prefix
     - name: Build
-      run: make install
+      run: mkdir -p `pwd`/inst-prefix/lib && gmake install
     - name: Test
       run: SRC=`pwd`; cd "$SRC/inst-prefix/bin" && "$SRC/run_tests.sh"
