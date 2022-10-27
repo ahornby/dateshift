@@ -1,0 +1,68 @@
+.TH "dateshift" "1" "1.0" "Alex Hornby" "Test tools"
+.SH "NAME"
+.LP 
+dateshift \- Moves system date for program under test
+.SH "SYNTAX"
+.LP 
+dateshift -t "<\fIYYYY\-MM\-DD\fP> [\fIHH:MM:SS\fP]" [ \- <program> ]
+.SH "DESCRIPTION"
+.LP 
+Moves system date for program under test. Once the date is moved the clock continues ticking, so that the program under test is now in a time warp.
+
+dateshift is generally more convienient than changing the system clock, and does not require root privileges.
+
+If you do not specify a command then your shell will be run.
+
+The dates and times are in ISO\-8601 format. This means that dates are YEAR\-MONTH\-DAY and times are HOUR:MINUTE:SECOND. Hours are in 24\-hour format.
+.SH "OPTIONS"
+.LP 
+.TP 
+\fB\-h\fR
+Output help information and exit.
+.TP 
+\fB\-t <\fIYYYY\-MM\-DD\fP> [\fIHH:MM:SS\fP]\fR
+Specify the command to run in the date shifted environment
+.TP 
+\fB\-v\fR
+Output version information and exit.
+.TP 
+\fB\-d\fR
+Run in verbose output mode
+.SH "ENVIRONMENT VARIABLES"
+.LP 
+.TP 
+\fBDS_OFFSET\fP
+dateshift sets this to the number of seconds offset
+.TP 
+\fBLD_PRELOAD\fP
+dateshift uses LD_PRELOAD to intercept calls to time()
+and gettimeofday()
+
+.SH "EXAMPLES"
+.LP 
+You can run a program at a different time like so:
+.LP 
+dateshift -t 2001\-01\-01 \- date
+.LP 
+To run a time shifted shell to 20th Jan 2000 do:
+.LP 
+dateshift -t 2001\-01\-20
+.LP 
+Alternatively you can run it with a time as well
+.LP 
+dateshift -t "2001\-01\-20 18:00:00"
+.SH "LIMITATIONS"
+dateshift works via the run time linker's LD_PRELOAD mechanism. It will therefore not work on statically linked executables.
+
+Also dateshift does not wrap stat() or other file based functions. Therefore programs which get file timestamps will still see the true time rather than the shifted time. 
+.SH "AUTHORS"
+.LP 
+Alex Hornby <alex@hornby.org.uk>
+.SH "COPYRIGHT"
+.LP 
+Copyright � 2002,2008 Alex Hornby.
+This is free software; see the source for copying conditions. There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+.SH "SEE ALSO"
+.LP 
+date(1) time(2) gettimeofday(2)
+ 
