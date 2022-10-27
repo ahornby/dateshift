@@ -1,9 +1,9 @@
 dnl setup autotools
-AC_INIT
+AC_INIT([dateshift], [1.2])
 AC_CONFIG_SRCDIR([dateshift.c])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR(config)
-AM_INIT_AUTOMAKE(dateshift, 1.1)
+AM_INIT_AUTOMAKE
 
 dnl Setup libtool
 AC_DISABLE_STATIC([])

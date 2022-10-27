@@ -16,6 +16,6 @@ libdsintercept_la_LIBADD = -ldl
 bin_PROGRAMS = dateshift
 dateshift_SOURCES = dateshift.c
 
-INCLUDES = -DLIBDIR=\"$(libdir)\"
+AM_CPPFLAGS = -DLIBDIR=\"$(libdir)\"
 
 CLEANFILES = *~ *.tar.gz
