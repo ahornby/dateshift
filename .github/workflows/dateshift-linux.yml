@@ -1,0 +1,24 @@
+name: Dateshift Linux
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Generate
+      run: ./autogen.sh
+    - name: Configure
+      run: ./configure --prefix=`pwd`/install
+    - name: Build
+      run: make install
+
