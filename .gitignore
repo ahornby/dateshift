@@ -1,2 +1,10 @@
 autom4te.cache/
 configure~
+config.log
+config.status
+config/Makefile
+Makefile
+libtool
+.deps/
+dateshift
+dateshift.o
