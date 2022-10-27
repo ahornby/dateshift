@@ -17,13 +17,16 @@ dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_INSTALL
 
-dnl Check for functons/declarations
+dnl Check for functions/declarations
 AC_DEFINE(_GNU_SOURCE)
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <time.h>]], [[
-	int gettimeofday(struct timeval *tv,struct timezone *tz);
+	int gettimeofday(struct timeval *__restrict tv, void *__restrict tz);
+]])],[AC_DEFINE(GETTIMEOFDAY_HAS_RESTRICT_VOID_TIMEZONE)],[])
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <time.h>]], [[
+	int gettimeofday(struct timeval *tv, struct timezone *tz);
 ]])],[AC_DEFINE(GETTIMEOFDAY_HAS_TIMEZONE)],[])
 
-dnl Check for functons/declarations
+dnl Check for functions/declarations
 AC_SEARCH_LIBS([clock_gettime],[c rt posix4]) 
 AC_CHECK_FUNCS(clock_gettime)
 

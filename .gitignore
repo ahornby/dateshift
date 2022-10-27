@@ -8,3 +8,6 @@ libtool
 .deps/
 dateshift
 dateshift.o
+.libs/
+dsintercept.lo
+libdsintercept.la

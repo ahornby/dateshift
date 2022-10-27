@@ -89,10 +89,12 @@ int clock_gettime(clockid_t clk_id, struct timespec *tp)
 #endif
 
 int gettimeofday(struct timeval *tv,
-#ifdef GETTIMEOFDAY_HAS_TIMEZONE
-		struct timezone *tz
+#ifdef GETTIMEOFDAY_HAS_RESTRICT_VOID_TIMEZONE
+	void *__restrict tz
+#elif GETTIMEOFDAY_HAS_TIMEZONE
+	struct timezone *tz
 #else
-void *tz
+	void *tz
 #endif
 ) {
 	int ret;

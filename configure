@@ -13543,7 +13543,26 @@ int
 main (void)
 {
 
-	int gettimeofday(struct timeval *tv,struct timezone *tz);
+	int gettimeofday(struct timeval *__restrict tv, void *__restrict tz);
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"
+then :
+  printf "%s\n" "#define GETTIMEOFDAY_HAS_RESTRICT_VOID_TIMEZONE 1" >>confdefs.h
+
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+#include <time.h>
+int
+main (void)
+{
+
+	int gettimeofday(struct timeval *tv, struct timezone *tz);
 
   ;
   return 0;
